@@ -24,6 +24,14 @@ func (c *Context) Get(key string) any {
 	return c.values[key]
 }
 
+func (c *Context) GetHeader(key string) string {
+	return c.Request.Header.Get(key)
+}
+
+func (c *Context) SetHeader(key string, value string) {
+	c.ResponseWriter.Header().Add(key, value)
+}
+
 func (c *Context) Text(code int, s string) error {
 	c.ResponseWriter.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	c.ResponseWriter.WriteHeader(code)
