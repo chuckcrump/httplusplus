@@ -2,6 +2,8 @@
 
 A dead simple ```net/http``` wrapper.
 
+**Note:** The middleware api will change soon.
+
 ## Installation
 ```sh
 go get github.com/chuckcrump/httplusplus
