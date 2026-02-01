@@ -8,8 +8,8 @@ type Handler func(ctx *Context) error
 type Middleware func(next Handler) Handler
 
 func Use(h Handler, middlewares ...Middleware) Handler {
-	for i := range middlewares {
-		h = middlewares[i](h)
+	for _, middleware := range middlewares {
+		h = middleware(h)
 	}
 	return h
 }
