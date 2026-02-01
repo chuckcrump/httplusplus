@@ -5,12 +5,14 @@ import (
 )
 
 type Route struct {
+	router  *AppRouter
 	path    string
 	handler Handler
 }
 
 type AppRouter struct {
-	Mux *http.ServeMux
+	Mux    *http.ServeMux
+	routes []*Route
 }
 
 func NewRouter() *AppRouter {
@@ -22,10 +24,12 @@ func NewRouter() *AppRouter {
 func (a *AppRouter) Route(
 	path string,
 	handler Handler,
-) *AppRouter {
-	a.Mux.HandleFunc(
-		path,
-		handler.toStdHandler(),
-	)
-	return a
+) *Route {
+	r := &Route{
+		router:  a,
+		path:    path,
+		handler: handler,
+	}
+	a.routes = append(a.routes, r)
+	return r
 }

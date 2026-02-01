@@ -7,6 +7,9 @@ import (
 )
 
 func StartApp(address string, app *AppRouter) {
+	for _, r := range app.routes {
+		app.Mux.HandleFunc(r.path, r.handler.toStdHandler())
+	}
 	fmt.Printf("Server running at http://%s\n", address)
 	if err := http.ListenAndServe(fmt.Sprintf("%s", address), app.Mux); err != nil {
 		log.Fatalf("Server failed to start: %v", err)

@@ -7,11 +7,12 @@ import (
 type Handler func(ctx *Context) error
 type Middleware func(next Handler) Handler
 
-func Use(h Handler, middlewares ...Middleware) Handler {
-	for _, middleware := range middlewares {
-		h = middleware(h)
+func (r *Route) Use(middlewares ...Middleware) *Route {
+	for i := len(middlewares) - 1; i >= 0; i-- {
+		r.handler = middlewares[i](r.handler)
 	}
-	return h
+
+	return r
 }
 
 func (handler Handler) toStdHandler() http.HandlerFunc {
