@@ -2,8 +2,6 @@
 
 A dead simple ```net/http``` wrapper.
 
-**Note:** The middleware api will change soon.
-
 ## Installation
 ```sh
 go get github.com/chuckcrump/httplusplus
@@ -41,11 +39,9 @@ func Hello(ctx *hpp.Context) error {
 func main() {
 	app := hpp.NewRouter()
 
-	app.Route("GET /hello/{name}", hpp.Use(Hello, HelloMiddleware //any other middlewares))
-	//NOTE in the future it will look like
-	//app.
-	//  Route("GET /hello/{name}", Hello).
-	//  Middlewares(HelloMiddleware //any other middlewares)
+	app.
+	  Route("GET /hello/{name}", Hello).
+	  Use(HelloMiddleware)//.Use() Any other middleware you want
   
 	hpp.StartApp("127.0.0.1:3001", app)
 }
