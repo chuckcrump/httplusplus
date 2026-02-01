@@ -33,7 +33,7 @@ func HelloMiddleware(next hpp.Handler) hpp.Handler {
   }
 }
 
-func HelloHandler(ctx *hpp.Context) error {
+func Hello(ctx *hpp.Context) error {
   name := ctx.Request.PathValue("name")
   return ctx.Text(http.StatusOK, "Hallo, "+name+"!")
 }
@@ -41,7 +41,11 @@ func HelloHandler(ctx *hpp.Context) error {
 func main() {
 	app := hpp.NewRouter()
 
-	app.Route("GET /hello/{name}", hpp.Use(HelloHandler, HelloMiddleware))
+	app.Route("GET /hello/{name}", hpp.Use(Hello, HelloMiddleware //any other middlewares))
+	//NOTE in the future it will look like
+	//app.
+	//  Route("GET /hello/{name}", Hello).
+	//  Middlewares(HelloMiddleware //any other middlewares)
   
 	hpp.StartApp("127.0.0.1:3001", app)
 }
